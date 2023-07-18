@@ -91,6 +91,8 @@ void test_six_valid_vertices_nonconnected_volume_is_zero()
 }
 
 // fails because only a single vertice is used to convey the volume, here it's trying to use two vertices with the same trajectory
+// to implement something which adds/merges two vertices we could compare their unit vectors, as a means of saying they are the same line
+// but then we would probably have to bring in floating point tolerances
 
 
         // void test_twelve_valid_vertices_volume_is_non_zero()
