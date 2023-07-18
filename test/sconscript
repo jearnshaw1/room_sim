@@ -1,0 +1,25 @@
+Import( 'env' )
+
+env.AppendUnique( STATICLIBS = env.BoostStaticLibs( [ 'unit_test_framework' ] ) )
+
+tests = [
+    'volume'
+]
+
+env.MergeFlags( '-DBOOST_ASIO_NO_DEPRECATED' )
+
+artifacts_base = '#_artifacts'
+artifacts_directory = artifacts_base + env[ 'flat_build_base' ]
+coverage_directory = artifacts_base + 'coverage'
+test_dir = artifacts_base + 'test'
+
+compiled_tests = []
+coverage_files = []
+
+for test in tests:
+    compiled_test = env.BuildTest( test, [ test + '.cpp' ], cov_exclude_dependencies=True )
+    compiled_tests.append( compiled_test )
+    env.CopyFiles( artifacts_directory, env.Filter( compiled_test, [ '*.json' ] ) )
+    coverage_files.append( env.CollateCoverageFiles( compiled_test, destination=coverage_directory ) )
+
+env.CollateCoverageIndex( coverage_files, destination=coverage_directory )

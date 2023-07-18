@@ -1,0 +1,14 @@
+import cuppa
+
+room_sim = cuppa.location_dependency( 'room_sim', include='include', location='#' )
+
+cuppa.run(
+    dependencies= [
+        room_sim,
+    ],
+    default_dependencies=[
+        room_sim.name(),
+        'boost'
+    ],
+    default_runner='boost'
+)
